@@ -1,0 +1,10 @@
+services:
+  web:
+    build: .
+    volumes:
+      - .:/src/
+    ports:
+      - 8000:8000
+    environment:
+      - ENVIRONMENT=DEV
+      - TESTING=0
