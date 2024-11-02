@@ -10,6 +10,7 @@ log = logging.getLogger("uvicorn")
 class Settings(BaseSettings):
     environment: str = "dev"
     testing: bool = bool(0)
+    database_url: str = None
 
 
 @lru_cache()

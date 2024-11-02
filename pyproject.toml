@@ -9,7 +9,14 @@ python = "^3.12"
 fastapi = "0.109.0"
 uvicorn = "0.26.0"
 pydantic-settings = "2.1.0"
+asyncpg = "0.29.0"
+tortoise-orm = "0.20.0"
+aerich = "0.7.2"
 
+[tool.aerich]
+tortoise_orm = "app.db.TORTOISE_ORM"
+location = "./migrations"
+src_folder = "./."
 
 [build-system]
 requires = ["poetry-core"]
