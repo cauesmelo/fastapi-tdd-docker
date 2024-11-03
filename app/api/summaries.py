@@ -5,7 +5,6 @@ from app.models.pydantic import SummaryPayloadSchema, SummaryResponseSchema
 from app.api import crud
 from app.models.tortoise import SummarySchema
 
-
 router = APIRouter(prefix="/summaries")
 
 @router.post("/")
