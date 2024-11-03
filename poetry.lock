@@ -547,18 +547,19 @@ files = [
 
 [[package]]
 name = "tortoise-orm"
-version = "0.20.0"
+version = "0.21.0"
 description = "Easy async ORM for python, built with relations in mind"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = "<4.0,>=3.8"
 files = [
-    {file = "tortoise_orm-0.20.0-py3-none-any.whl", hash = "sha256:1891ad935de689ddf002c5c65c864176d28659ab6069e45f0e2cde32359bb8d9"},
-    {file = "tortoise_orm-0.20.0.tar.gz", hash = "sha256:283af584d685dcc58d6cc1da35b9115bb1e41c89075eae2a19c493b39b9b41f7"},
+    {file = "tortoise_orm-0.21.0-py3-none-any.whl", hash = "sha256:f2252855989756193c18f145226852b74d867754c3b2e3b76e2aa3e010f4ccd0"},
+    {file = "tortoise_orm-0.21.0.tar.gz", hash = "sha256:75150a6c802c3a2ca661f7c9d1928c05543e4b77f667eef9b97f2c0ac83ecae6"},
 ]
 
 [package.dependencies]
 aiosqlite = ">=0.16.0,<0.18.0"
 iso8601 = ">=1.0.2,<2.0.0"
+pydantic = ">=2.0,<2.7.0 || >2.7.0,<3.0"
 pypika-tortoise = ">=0.1.6,<0.2.0"
 pytz = "*"
 
@@ -602,4 +603,4 @@ standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)",
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "94d901f42ff24e061d8615580baa8fc976e79ffddb2e823e28dc4e839e6a095f"
+content-hash = "5e3288c33e9cb2d5613b810f83116ddf36e8d1cecfdd40c162e0edf1e201eb51"
