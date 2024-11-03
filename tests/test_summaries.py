@@ -2,9 +2,7 @@ import json
 
 
 def test_create_summary(test_app_with_db):
-    payload = {
-        "url": "https://foo.bar"
-    }
+    payload = {"url": "https://foo.bar"}
 
     response = test_app_with_db.post("/summaries/", content=json.dumps(payload))
 
