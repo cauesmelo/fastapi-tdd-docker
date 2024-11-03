@@ -7,6 +7,7 @@ from app.settings import get_settings
 
 settings = get_settings()
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     log.info("Starting up...")
@@ -22,10 +23,11 @@ async def lifespan(app: FastAPI):
 log = logging.getLogger("uvicorn")
 
 
-def create_application(*, lifespan = None) -> FastAPI:
+def create_application(*, lifespan=None) -> FastAPI:
     application = FastAPI(lifespan=lifespan)
     application.include_router(ping.router)
     application.include_router(summaries.router)
     return application
+
 
 app = create_application(lifespan=lifespan)

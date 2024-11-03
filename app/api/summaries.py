@@ -7,6 +7,7 @@ from app.models.tortoise import SummarySchema
 
 router = APIRouter(prefix="/summaries")
 
+
 @router.post("/")
 async def create_summary(payload: SummaryPayloadSchema) -> SummaryResponseSchema:
     id = await crud.post(payload)
@@ -21,6 +22,7 @@ async def create_summary(payload: SummaryPayloadSchema) -> SummaryResponseSchema
         content=response_object
     )
 
+
 @router.get("/{id}")
 async def read_summary(id: int) -> SummarySchema:
     summary = await crud.get(id)
@@ -32,6 +34,7 @@ async def read_summary(id: int) -> SummarySchema:
         )
 
     return summary
+
 
 @router.get("/")
 async def read_all_summaries() -> List[SummarySchema]:

@@ -3,19 +3,17 @@ import os
 from fastapi import FastAPI
 import pytest
 from starlette.testclient import TestClient
-from tortoise.contrib.fastapi import register_tortoise
 from app.db import clear_test_db, init_test_db
 from app.main import create_application
 from app.settings import get_settings, Settings
-from tortoise import Tortoise
-from tortoise import Tortoise, generate_config
-from tortoise.contrib.fastapi import RegisterTortoise
+
 
 def get_settings_override():
     return Settings(
         testing=1,
         database_url=os.environ.get("DATABASE_TEST_URL")
     )
+
 
 @asynccontextmanager
 async def test_lifespan(app: FastAPI):
@@ -24,6 +22,7 @@ async def test_lifespan(app: FastAPI):
     yield
 
     await clear_test_db()
+
 
 @pytest.fixture(scope="module")
 def test_app():
@@ -36,6 +35,7 @@ def test_app():
         yield test_client
 
     # tear down
+
 
 @pytest.fixture(scope="module")
 def test_app_with_db():

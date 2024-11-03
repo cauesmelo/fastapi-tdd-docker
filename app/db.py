@@ -37,5 +37,6 @@ async def init_test_db():
     await Tortoise.generate_schemas()
     await Tortoise.close_connections()
 
+
 async def clear_test_db():
     await Tortoise._drop_databases()
