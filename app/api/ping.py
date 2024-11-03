@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from app.settings import get_settings, Settings
+from app.settings import Settings, get_settings
 
 router = APIRouter()
 

@@ -1,6 +1,8 @@
-from contextlib import asynccontextmanager
 import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
+
 from app.api import ping, summaries
 from app.db import init_db
 from app.settings import get_settings

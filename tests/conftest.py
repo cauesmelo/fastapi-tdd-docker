@@ -1,11 +1,13 @@
-from contextlib import asynccontextmanager
 import os
-from fastapi import FastAPI
+from contextlib import asynccontextmanager
+
 import pytest
+from fastapi import FastAPI
 from starlette.testclient import TestClient
+
 from app.db import clear_test_db, init_test_db
 from app.main import create_application
-from app.settings import get_settings, Settings
+from app.settings import Settings, get_settings
 
 
 def get_settings_override():

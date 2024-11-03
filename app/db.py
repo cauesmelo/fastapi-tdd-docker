@@ -1,6 +1,8 @@
 import logging
 import os
+
 from tortoise import Tortoise
+
 from app.settings import get_settings
 
 log = logging.getLogger("uvicorn")
