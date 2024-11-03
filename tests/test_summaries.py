@@ -5,7 +5,7 @@ def test_create_summary(test_app_with_db):
         "url": "https://foo.bar"
     }
     
-    response = test_app_with_db.post("/summaries/", data=json.dumps(payload))
+    response = test_app_with_db.post("/summaries/", content=json.dumps(payload))
 
     assert response.status_code == 201
     assert response.json()["url"] == "https://foo.bar"
@@ -13,14 +13,14 @@ def test_create_summary(test_app_with_db):
 def test_create_summaries_invalid_json(test_app_with_db):
     payload = {} # empty
 
-    response = test_app_with_db.post("/summaries/", data=json.dumps(payload))
+    response = test_app_with_db.post("/summaries/", content=json.dumps(payload))
 
     assert response.status_code == 422
 
 def test_read_summary(test_app_with_db):
     # create new
     payload = {"url": "https://foo.bar"}
-    response = test_app_with_db.post("/summaries/", data=json.dumps(payload))
+    response = test_app_with_db.post("/summaries/", content=json.dumps(payload))
     id = response.json()["id"]
 
     # get created
@@ -40,7 +40,7 @@ def test_read_summary_incorrect_id(test_app_with_db):
 
 def test_read_all_summaries(test_app_with_db):
     payload = {"url": "https://foo.bar"}
-    response = test_app_with_db.post("/summaries", data=json.dumps(payload))
+    response = test_app_with_db.post("/summaries", content=json.dumps(payload))
 
     id = response.json()["id"]
 
