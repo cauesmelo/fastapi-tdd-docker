@@ -27,8 +27,8 @@ jobs:
           docker build \
             --cache-from ${{ env.IMAGE }}:latest \
             --tag ${{ env.IMAGE }}:latest \
-            --file ./project/Dockerfile.prod \
-            "./project"
+            --file ./Dockerfile.prod \
+            "./"
       - name: Push image
         run: |
           docker push ${{ env.IMAGE }}:latest
@@ -54,8 +54,8 @@ jobs:
           docker build \
             --cache-from ${{ env.IMAGE }}:latest \
             --tag ${{ env.IMAGE }}:latest \
-            --file ./project/Dockerfile.prod \
-            "./project"
+            --file ./Dockerfile.prod \
+            "./"
       - name: Run container
         run: |
           docker run \
