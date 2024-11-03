@@ -55,3 +55,6 @@ USER app
 
 # run gunicorn
 CMD gunicorn --bind 0.0.0.0:$PORT app.main:app -k uvicorn.workers.UvicornWorker
+
+# ghcr label
+LABEL org.opencontainers.image.source https://github.com/cauesmelo/fastapi-tdd-docker
