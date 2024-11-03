@@ -6,11 +6,11 @@ authors = ["cauesmelo <cauesmelo@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "0.109.0"
-uvicorn = "0.26.0"
+fastapi = "^0.115.4"
+uvicorn = "^0.32.0"
 pydantic-settings = "2.1.0"
 asyncpg = "0.29.0"
-tortoise-orm = "0.21.0"
+tortoise-orm = "^0.21.7"
 aerich = "0.7.2"
 httpx = "0.26.0"
 pytest = "7.4.4"
