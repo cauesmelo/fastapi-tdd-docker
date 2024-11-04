@@ -33,9 +33,14 @@ async def init_test_db():
     await Tortoise.init(
         db_url=os.environ.get("DATABASE_TEST_URL"),
         modules={"models": ["app.models.tortoise"]},
+    )
+    await Tortoise._drop_databases()
+
+    await Tortoise.init(
+        db_url=os.environ.get("DATABASE_TEST_URL"),
+        modules={"models": ["app.models.tortoise"]},
         _create_db=True,
     )
-
     await Tortoise.generate_schemas()
     await Tortoise.close_connections()
 
