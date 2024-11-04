@@ -1,5 +1,17 @@
 import json
 
+import pytest
+
+from app.api import summaries
+
+
+@pytest.fixture(autouse=True)
+def patch_summary(monkeypatch):
+    def mock_generate_summary(id, url):
+        return "Sample Summary"
+
+    monkeypatch.setattr(summaries, "generate_summary", mock_generate_summary)
+
 
 def test_create_summary(test_app_with_db):
     payload = {"url": "https://foo.bar"}
@@ -31,7 +43,6 @@ def test_read_summary(test_app_with_db):
     assert response.status_code == 200
     assert response_dict["id"] == id
     assert response_dict["url"] == "https://foo.bar"
-    assert response_dict["summary"]
     assert response_dict["created_at"]
 
 

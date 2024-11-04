@@ -1,7 +1,17 @@
 import json
 from datetime import datetime
 
-from app.api import crud
+import pytest
+
+from app.api import crud, summaries
+
+
+@pytest.fixture(autouse=True)
+def patch_summary(monkeypatch):
+    def mock_generate_summary(id, url):
+        return "Sample Summary"
+
+    monkeypatch.setattr(summaries, "generate_summary", mock_generate_summary)
 
 
 def test_create_summary(test_app, monkeypatch):
