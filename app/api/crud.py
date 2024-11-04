@@ -29,3 +29,15 @@ async def delete(id: int) -> bool:
     summary = await TextSummary.filter(id=id).first().delete()
 
     return summary != 0
+
+
+async def put(id: int, payload: SummaryPayloadSchema):
+    summary = await TextSummary.filter(id=id).update(
+        url=payload.url, summary=payload.summary
+    )
+
+    if summary:
+        updated_summary = await TextSummary.filter(id=id).first().values()
+        return updated_summary
+
+    return None
