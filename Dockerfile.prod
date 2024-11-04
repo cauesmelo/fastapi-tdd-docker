@@ -1,5 +1,29 @@
+###########
+# BUILDER #
+###########
+
 # pull official base image
-FROM python:3.12.1-slim-bookworm
+FROM python:3.12.1-slim-bookworm AS builder
+
+# install system dependencies
+RUN apt-get update \
+  && apt-get -y install netcat-traditional gcc postgresql \
+  && apt-get clean
+
+# create directory for the app user
+RUN mkdir -p /home/app
+
+# create the appropriate directories
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV ENVIRONMENT=prod
+ENV TESTING=0
 
 # configure poetry
 ENV POETRY_VERSION=1.8.3
@@ -16,6 +40,28 @@ RUN python3 -m venv $POETRY_VENV \
 # add poetry to path
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
+# install dependencies
+COPY pyproject.toml poetry.lock ./
+RUN poetry install
+
+# build
+COPY . .
+RUN poetry build -f wheel
+RUN poetry export -f requirements.txt --output requirements.txt
+
+
+# lint
+RUN flake8 .
+RUN black --exclude=migrations . --check
+RUN isort . --check-only
+
+#########
+# FINAL #
+#########
+
+# pull official base image
+FROM python:3.12.1-slim-bookworm
+
 # create directory for the app user
 RUN mkdir -p /home/app
 
@@ -29,10 +75,10 @@ RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
 
 # set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-ENV ENVIRONMENT prod
-ENV TESTING 0
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV ENVIRONMENT=prod
+ENV TESTING=0
 
 # install system dependencies
 RUN apt-get update \
@@ -40,9 +86,11 @@ RUN apt-get update \
   && apt-get clean
 
 # install dependencies
-COPY pyproject.toml poetry.lock ./
-RUN poetry install
-RUN poetry add 'uvicorn[standard]==0.32.0'
+COPY --from=builder /home/app/web/dist/*.whl /wheels/
+COPY --from=builder /home/app/web/requirements.txt .
+RUN pip install --upgrade pip
+RUN pip install --no-cache /wheels/*
+RUN pip install "uvicorn[standard]==0.26.0"
 
 # add app
 COPY . .
@@ -57,4 +105,4 @@ USER app
 CMD gunicorn --bind 0.0.0.0:$PORT app.main:app -k uvicorn.workers.UvicornWorker
 
 # ghcr label
-LABEL org.opencontainers.image.source https://github.com/cauesmelo/fastapi-tdd-docker
+LABEL org.opencontainers.image.source=https://github.com/cauesmelo/fastapi-tdd-docker
