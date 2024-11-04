@@ -53,3 +53,20 @@ def test_read_all_summaries(test_app_with_db):
     response_list = response.json()
     filter_by_id = list(filter(lambda d: d["id"] == id, response_list))
     assert len(filter_by_id) == 1
+
+
+def test_remove_summary(test_app_with_db):
+    payload = {"url": "https://foo.bar"}
+    response = test_app_with_db.post("/summaries", content=json.dumps(payload))
+
+    id = response.json()["id"]
+    response = test_app_with_db.delete(f"/summaries/{id}")
+
+    assert response.status_code == 204
+
+
+def test_remove_summary_incorrect_id(test_app_with_db):
+    response = test_app_with_db.delete("/summaries/999")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Summary not found"

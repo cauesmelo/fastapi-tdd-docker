@@ -10,8 +10,8 @@ from app.models.tortoise import SummarySchema
 router = APIRouter(prefix="/summaries")
 
 
-@router.post("/")
-async def create_summary(payload: SummaryPayloadSchema) -> SummaryResponseSchema:
+@router.post("/", response_model=SummaryResponseSchema)
+async def create_summary(payload: SummaryPayloadSchema):
     id = await crud.post(payload)
 
     response_object = {"id": id, "url": payload.url}
@@ -19,8 +19,8 @@ async def create_summary(payload: SummaryPayloadSchema) -> SummaryResponseSchema
     return JSONResponse(status_code=201, content=response_object)
 
 
-@router.get("/{id}")
-async def read_summary(id: int) -> SummarySchema:
+@router.get("/{id}", response_model=SummarySchema)
+async def read_summary(id: int):
     summary = await crud.get(id)
 
     if summary is None:
@@ -29,6 +29,16 @@ async def read_summary(id: int) -> SummarySchema:
     return summary
 
 
-@router.get("/")
-async def read_all_summaries() -> List[SummarySchema]:
+@router.get("/", response_model=List[SummarySchema])
+async def read_all_summaries() -> List:
     return await crud.get_all()
+
+
+@router.delete("/{id}")
+async def delete_summary(id: int):
+    response = await crud.delete(id)
+
+    if response is False:
+        raise HTTPException(status_code=404, detail="Summary not found")
+
+    return JSONResponse(status_code=204, content=None)
