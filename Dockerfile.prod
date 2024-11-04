@@ -47,7 +47,7 @@ RUN poetry install
 # build
 COPY . .
 RUN poetry build -f wheel
-RUN poetry export -f requirements.txt --output requirements.txt
+RUN poetry export -f requirements.txt --output requirements.txt --with=dev
 
 
 # lint
